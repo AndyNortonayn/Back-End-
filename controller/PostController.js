@@ -1,11 +1,11 @@
 const Post = require ("../model/Post.js");
+const PostService = require("../service/PostService")
+const {request} = require("express");
 
 class PostController{
     async create (req, res){
         try{
-            const {title, content} = req.body
-            console.log(req.body)
-            const post = await Post.create({title, content})
+            const post = await PostService.create(req.body, req.files.picture)
             res.json(post)
         }catch (e){
             res.status(500).json(e)
@@ -13,47 +13,34 @@ class PostController{
     }
     async getAll (req, res){
         try {
-            const posts = await Post.find();
+            const posts = await PostService.getAll();
             return res.json(posts)
         }catch (e){
-            res.status(500).json
+            res.status(500).json(e)
         }
     }
     async getOne (req, res){
         try {
-            const{id}=req.params
-            if(!id){
-                res.status(400).json({message:'Id не указан'})
-            }
-            const post = await Post.findById(id);
+            const post = await PostService.getOne(request.params.id);
             return res.json(post)
-        }catch (e){
-            res.status(500).json
+        } catch (e){
+            res.status(500).json(e)
         }
     }
     async update (req, res){
         try {
-            const post = req.body
-            if(!post._id){
-                req.status.json({message:'Id не указан'})
-            }
-            const updatePost = await Post.findByIdAndUpdate(post._id, post, {new:true})
+            const updatePost = await PostService.update(req.body);
             return res.json(updatePost);
         }catch (e){
-            res.status(500).json
+            res.status(500).json(e.message)
         }
     }
     async delate (req, res){
         try {
-            const {id} = req.params
-            console.log(req.params)
-            if(!id){
-                req.status.json({message:'Id не указан'})
-            }
-            const post =  await  Post.findByIdAndDelete(id);
+            const post =  await  PostService.delate(req.params.id);
             return res.json(post)
         }catch (e){
-            res.status(500).json
+            res.status(500).json(e)
         }
     }
 }

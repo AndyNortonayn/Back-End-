@@ -6,10 +6,10 @@ const {check} = require ("express-validator");
 const router = new Router()
 
 router.post('/posts', PostController.create)
-router.get('/posts', PostController.getAll)
+router.get('/pоsts', PostController.getAll)
 router.get('/posts/:id', PostController.getOne)
-router.put('/posts', PostController.update)
-router.delete('/posts/:id', PostController.delate)
+router.put('/pоsts', PostController.update)
+router.delete('/pоsts/:id', PostController.delate)
 
 router.post('/register', [
     check('login', 'Логин не может быть пустым').notEmpty(),
