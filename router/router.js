@@ -18,4 +18,4 @@ router.post('/register', [
 router.post('/login', RegisterController.login)
 
 
-module  .exports = router;
+module.exports = router;

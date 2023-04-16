@@ -1,14 +1,18 @@
 const Post = require ("../model/Post");
-const filleService = require("../service/fileService")
+const cron = require("node-cron");
+const PostController = require("../controller/PostController");
 
 class PostService{
-    async create (post, picture) {
-        const fileName = filleService.saveFile(picture)
-        const createdPost = await Post.create({...post, picture: fileName})
-        return createdPost;
+    async create (post) {
+        cron.schedule('* * * * *', async () => {
+            console.log('work')
+            const createdPost = await Post.create(post)
+            return createdPost;
+        })
 
     }
     async getAll (){
+
         const posts = await Post.find();
         return posts;
 
@@ -32,7 +36,7 @@ class PostService{
         if(!id){
             throw new Error({message:'Id не указан'})
         }
-        const post =  await  Post.findByIdAndDelete(id);
+        const post =  await Post.findByIdAndDelete(id);
         return post;
 
 
