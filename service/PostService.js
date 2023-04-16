@@ -1,6 +1,6 @@
 const Post = require ("../model/Post");
 const cron = require("node-cron");
-const PostController = require("../controller/PostController");
+
 
 class PostService{
     async create (post) {
